@@ -2,9 +2,6 @@ package main
 
 import (
 	"fmt"
-	//"github.com/marni/goigc"
-	"log"
-	"net/http"
 	"os"
 )
 
@@ -17,6 +14,8 @@ func main() {
 
 	fmt.Printf("Pilot: %s, gilderType: %s, date: %s",
 		track.Pilot, track.GliderType, track.Date.String())*/
+
+	/*
 	if len(os.Args) != 2 {
 		os.Exit(1)
 	}
@@ -25,5 +24,7 @@ func main() {
 		log.Fatal(err)
 	} else {
 		fmt.Print(response)
-	}
+	}*/
+
+	fmt.Print(os.Args)
 }
