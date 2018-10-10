@@ -31,8 +31,7 @@ import (
 }*/
 func hello(w http.ResponseWriter, r *http.Request) {
 	//io.WriteString(w, "Hello my dude!!")
-	u := "xd"
-	fmt.Fprintf(w,"All the cool kids say %s", u)
+	fmt.Fprintf(w,"All the cool kids say %s", r.URL.Path[1:])
 }
 
 func main() {
