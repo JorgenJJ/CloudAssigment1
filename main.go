@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 )
@@ -29,13 +28,22 @@ import (
 
 
 }*/
-func hello(w http.ResponseWriter, r *http.Request) {
-	//io.WriteString(w, "Hello my dude!!")
-	fmt.Fprintf(w,"All the cool kids say %s", r.URL.Path[1:])
+var url = ""
+func readURL(w http.ResponseWriter, r *http.Request) {
+	url = r.URL.Path[1:]
+}
+
+func pageNotFound(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotFound)
+	w.Write([]byte("404 - Page not found!"))
 }
 
 func main() {
 	port := os.Getenv("PORT")
-	http.HandleFunc("/", hello)
+	http.HandleFunc("/", readURL)
 	http.ListenAndServe(":"+port, nil)
+
+	if url == "igcinfo" {
+		http.HandleFunc("/", pageNotFound)
+	}
 }
