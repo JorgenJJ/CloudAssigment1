@@ -17,7 +17,9 @@ func main() {
 
 	fmt.Printf("Pilot: %s, gilderType: %s, date: %s",
 		track.Pilot, track.GliderType, track.Date.String())*/
-
+	if len(os.Args) != 2 {
+		os.Exit(1)
+	}
 	response, err := http.Get(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
