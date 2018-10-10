@@ -31,12 +31,14 @@ import (
 
 }*/
 func hello(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "Hello my dude!")
-	fmt.Print("test")
+	io.WriteString(w, "Hello my dude!!")
 }
 
 func main() {
 	port := os.Getenv("PORT")
 	http.HandleFunc("/", hello)
 	http.ListenAndServe(":"+port, nil)
+	
+	u := "xd"
+	fmt.Printf("All the cool kids say %s", u)
 }
