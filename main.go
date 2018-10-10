@@ -21,8 +21,7 @@ func main() {
 	response, err := http.Get(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
-	}
-	else {
+	} else {
 		fmt.Print(response)
 	}
 }
