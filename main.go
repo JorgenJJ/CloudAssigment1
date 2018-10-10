@@ -31,7 +31,7 @@ import (
 
 }*/
 func hello(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "Hello world!")
+	io.WriteString(w, "Hello my dude!")
 	fmt.Print("test")
 }
 
