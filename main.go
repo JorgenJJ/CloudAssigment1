@@ -32,7 +32,7 @@ import (
 func hello(w http.ResponseWriter, r *http.Request) {
 	//io.WriteString(w, "Hello my dude!!")
 	u := "xd"
-	fmt.Printf("All the cool kids say %s", u)
+	fmt.Fprintf(w,"All the cool kids say %s", u)
 }
 
 func main() {
