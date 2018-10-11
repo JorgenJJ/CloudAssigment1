@@ -28,14 +28,20 @@ import (
 
 
 }*/
+var url = ""
 
-func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello %s!", r.URL.Path)
+func getUrl(w http.ResponseWriter, r *http.Request) {
+	url = r.URL.Path
+	if (url[1:0] == "/igcinfo") {
+		fmt.Fprintf(w,"test")
+	}
+	fmt.Fprint(w, url)
 }
 
 func main() {
 	port := os.Getenv("PORT")
-	http.HandleFunc("/", hello)
+	http.HandleFunc("/", getUrl)
+
 	http.ListenAndServe(":"+port, nil)
 }
 
