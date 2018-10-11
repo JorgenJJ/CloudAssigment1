@@ -43,7 +43,5 @@ func main() {
 	http.HandleFunc("/", readURL)
 	http.ListenAndServe(":"+port, nil)
 
-	if url == "igcinfo" {
-		http.HandleFunc("/", pageNotFound)
-	}
+	http.HandleFunc("/", pageNotFound)
 }
