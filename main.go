@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"path"
 )
 
 /*func main() {
@@ -29,25 +30,16 @@ import (
 
 }*/
 var url = ""
-
-func getUrl(w http.ResponseWriter, r *http.Request) {
-	keys, ok := r.URL.Query()["key"]
-
-	if !ok || len(keys[0]) < 1 {
-		fmt.Fprintln(w, "Url Param 'key' is missing")
-		return
-	}
-
-	key := keys[0]
-
-	fmt.Fprintf(w, "Url Param 'key' is: %s", string(key))
+func readURL(w http.ResponseWriter, r *http.Request) {
+	url = r.URL.String()
 }
 
 func main() {
 	port := os.Getenv("PORT")
-	http.HandleFunc("/", getUrl)
-
+	dir, file := path.Split(url)
 	http.ListenAndServe(":"+port, nil)
+	fmt.Println(dir)
+	fmt.Println(file)
 }
 
 /*
