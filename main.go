@@ -32,14 +32,14 @@ import (
 var url = ""
 func readURL(w http.ResponseWriter, r *http.Request) {
 	url = r.URL.String()
+	dir, file := path.Split(url)
+	fmt.Fprintln(w, dir)
+	fmt.Fprintln(w, file)
 }
 
 func main() {
 	port := os.Getenv("PORT")
 	http.HandleFunc("/", readURL)
-	dir, file := path.Split(url)
-	fmt.Println(dir)
-	fmt.Println(file)
 	http.ListenAndServe(":"+port, nil)
 }
 
