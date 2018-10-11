@@ -32,7 +32,7 @@ var url = ""
 
 func getUrl(w http.ResponseWriter, r *http.Request) {
 	url = r.URL.Path
-	if (url[1:0] == "/igcinfo") {
+	if (url[1:] == "/igcinfo") {
 		fmt.Fprintf(w,"test")
 	}
 	fmt.Fprint(w, url)
