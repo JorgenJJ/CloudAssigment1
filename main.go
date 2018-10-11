@@ -29,6 +29,18 @@ import (
 
 
 }*/
+
+func pageNotFound(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "404 - Page not found!")
+}
+
+func main() {
+	port := os.Getenv("PORT")
+	http.HandleFunc("/", pageNotFound)
+	http.ListenAndServe(":"+port, nil)
+}
+
+/*
 var url = ""
 func readURL(w http.ResponseWriter, r *http.Request) {
 	url = r.URL.Path[1:]
