@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 )
@@ -36,6 +37,7 @@ func readURL(w http.ResponseWriter, r *http.Request) {
 func pageNotFound(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
 	w.Write([]byte("404 - Page not found!"))
+	fmt.Fprint(w, "404 - Page not found!")
 }
 
 func main() {
