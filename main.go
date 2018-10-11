@@ -32,9 +32,9 @@ var url = ""
 
 func getUrl(w http.ResponseWriter, r *http.Request) {
 	url = r.URL.Path
-	fmt.Fprint(w, r.URL.Path[1:])
+	fmt.Fprint(w, r.URL.Path[1:7])
 	fmt.Fprint(w, " - ")
-	fmt.Fprint(w, r.URL.Path[2:])
+	fmt.Fprint(w, r.URL.Path[8:13])
 	fmt.Fprint(w, " - ")
 	fmt.Fprint(w, url)
 }
