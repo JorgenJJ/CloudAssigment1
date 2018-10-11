@@ -1,7 +1,7 @@
 package main
 
 import (
-	"io"
+	"fmt"
 	"net/http"
 	"os"
 )
@@ -30,7 +30,7 @@ import (
 }*/
 
 func hello(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "Hello world!")
+	fmt.Fprintf(w, "Hello %s!", r.URL.Path)
 }
 
 func main() {
