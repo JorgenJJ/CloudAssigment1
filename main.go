@@ -36,8 +36,9 @@ func readURL(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	port := os.Getenv("PORT")
-	dir, file := path.Split(url)
+	http.HandleFunc("/", readURL)
 	http.ListenAndServe(":"+port, nil)
+	dir, file := path.Split(url)
 	fmt.Println(dir)
 	fmt.Println(file)
 }
