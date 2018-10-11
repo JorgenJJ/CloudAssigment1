@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"io"
 	"net/http"
 	"os"
 )
@@ -30,13 +30,13 @@ import (
 
 }*/
 
-func pageNotFound(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "404 - Page not found!")
+func hello(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, "Hello world!")
 }
 
 func main() {
 	port := os.Getenv("PORT")
-	http.HandleFunc("/", pageNotFound)
+	http.HandleFunc("/", hello)
 	http.ListenAndServe(":"+port, nil)
 }
 
