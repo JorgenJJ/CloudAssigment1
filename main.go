@@ -31,12 +31,16 @@ import (
 var url = ""
 
 func getUrl(w http.ResponseWriter, r *http.Request) {
-	url = r.URL.Path
-	if r.URL.Path[1:8] == "igcinfo" { fmt.Fprint(w, r.URL.Path[1:8]) }
-	fmt.Fprint(w, " - ")
-	fmt.Fprint(w, r.URL.Path[8:13])
-	fmt.Fprint(w, " - ")
-	fmt.Fprint(w, url)
+	keys, ok := r.URL.Query()["key"]
+
+	if !ok || len(keys[0]) < 1 {
+		fmt.Fprintln(w, "Url Param 'key' is missing")
+		return
+	}
+
+	key := keys[0]
+
+	fmt.Fprintf(w, "Url Param 'key' is: %s", string(key))
 }
 
 func main() {
