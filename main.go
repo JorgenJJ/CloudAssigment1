@@ -35,6 +35,12 @@ func readURL(w http.ResponseWriter, r *http.Request) {
 	dir, file := path.Split(url)
 	fmt.Fprintln(w, dir)
 	fmt.Fprintln(w, file)
+
+	if dir == "/igcinfo/" && file == "api" {
+		fmt.Fprintln(w, "Uptime")
+		fmt.Fprintln(w, "Service for tracking igc files")
+		fmt.Fprintln(w, "Version 0.8")
+	}
 }
 
 func main() {
