@@ -84,9 +84,9 @@ func getMetadata(w http.ResponseWriter, r *http.Request) {
 func registerTrack(w http.ResponseWriter, r *http.Request) {
 	temp := lastTrack + 1
 	param := mux.Vars(r)
-	_ = json.NewDecoder(r.Body).Decode(&track)
+	_ = json.NewDecoder(r.Body).Decode(&track[temp])
 	track[temp].URL = param["url"]
-	track[temp].ID = string(temp)
+	track[temp].ID = "s"
 	json.NewEncoder(w).Encode(track[temp])
 }
 
