@@ -119,12 +119,12 @@ func getTrackMeta(w http.ResponseWriter, r *http.Request) {
 	// Writes a specific piece of information about a specific track
 func getTrackMetaField(w http.ResponseWriter, r *http.Request) {
 	url := r.URL.String()
-	u, field := path.Split(url)
+	temp := strings.Split(url, "/")
+	f := temp[5]
+	t := temp[4]
 
-	t := strings.Split(u, "/")
-
-	fmt.Fprintln(w, field)
-	fmt.Fprintln(w, t[3])
+	fmt.Fprintln(w, f)
+	fmt.Fprintln(w, t)
 
 
 	/*
