@@ -54,8 +54,9 @@ func getMetadata(w http.ResponseWriter, r *http.Request) {
 func main() {
 	port := os.Getenv("PORT")
 	http.HandleFunc("/igcinfo/api", getMetadata)
-	_, err := http.Get("http://serene-caverns-38031.herokuapp.com/igcinfo/api")
+	resp, err := http.Get("http://serene-caverns-38031.herokuapp.com/igcinfo/api")
 	if err != nil { log.Fatal(err) }
+	defer resp.Body.Close()
 	http.ListenAndServe(":"+port, nil)
 }
 
