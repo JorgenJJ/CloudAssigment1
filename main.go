@@ -145,7 +145,7 @@ func getTrackMeta(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(e)
 		}
 
-		info := TrackInfo{t.Date, t.Pilot, t.GliderType, t.GliderID, 0}
+		info := TrackInfo{t.Date, t.Pilot, t.GliderType, t.GliderID, 9}
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
