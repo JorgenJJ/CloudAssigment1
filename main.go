@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
 	"os"
@@ -60,12 +61,7 @@ type Files struct {
 	URL string `json:"url,omitempty"`
 }
 
-var url = ""
 var metadata Metadata
-
-func getMetadata(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(metadata)
-}
 
 func main() {
 	metadata.Uptime = "Yes"
@@ -79,6 +75,11 @@ func main() {
 	//if err != nil { log.Fatal(err) }
 	//defer resp.Body.Close()
 	http.ListenAndServe(":"+port, nil)
+}
+
+func getMetadata(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode(metadata)
+	fmt.Fprintln(w,"test")
 }
 
 /*
