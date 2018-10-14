@@ -42,6 +42,11 @@ func readURL(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Uptime: %s\n", uptime)
 		fmt.Fprintln(w, "Service for tracking igc files")
 		fmt.Fprintln(w, "Version 0.8")
+	} else if dir == "/igcinfo/api/" && file == "igc" {
+
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintln(w,"404 - Page not found")
 	}
 }
 
