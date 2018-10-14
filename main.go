@@ -1,12 +1,10 @@
 package main
 
 import (
-	"fmt"
-	"log"
+	"encoding/json"
+	"github.com/gorilla/mux"
 	"net/http"
 	"os"
-	"path"
-	"time"
 )
 
 /*func main() {
@@ -31,9 +29,9 @@ import (
 
 
 }*/
-var url = ""
-func getMetadata(w http.ResponseWriter, r *http.Request) {
-	start := time.Now()
+
+/*
+start := time.Now()
 	url = r.URL.String()
 	dir, file := path.Split(url)
 	fmt.Fprintln(w, dir)
@@ -49,14 +47,33 @@ func getMetadata(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		fmt.Fprintln(w,"404 - Page not found")
 	}
+
+ */
+type Metadata struct {
+	Uptime string `json:"uptime,omitempty"`
+	Desc string `json:"desc,omitempty"`
+	Version string `json:"version,omitempty"`
+}
+
+type Files struct {
+	ID string `json:"id,omitempty"`
+	URL string `json:"url,omitempty"`
+}
+
+var url = ""
+var metadata Metadata
+
+func getMetadata(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode(metadata)
 }
 
 func main() {
+	router := mux.NewRouter()
 	port := os.Getenv("PORT")
-	http.HandleFunc("/igcinfo/api", getMetadata)
-	resp, err := http.Get("http://serene-caverns-38031.herokuapp.com/igcinfo/api")
-	if err != nil { log.Fatal(err) }
-	defer resp.Body.Close()
+	router.HandleFunc("/igcinfo/api", getMetadata).Methods("GET")
+	//resp, err := http.Get("http://serene-caverns-38031.herokuapp.com/igcinfo/api")
+	//if err != nil { log.Fatal(err) }
+	//defer resp.Body.Close()
 	http.ListenAndServe(":"+port, nil)
 }
 
