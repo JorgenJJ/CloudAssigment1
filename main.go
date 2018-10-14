@@ -141,7 +141,7 @@ func getTrackMeta(w http.ResponseWriter, r *http.Request) {
 	if in <= lastTrack {
 		t, error := igc.ParseLocation(tracks[in].URL)
 		if error != nil {
-			fmt.Errorf("Problem reading the track", err)
+			log.Fatal(error)
 		}
 		info := TrackInfo{t.Date, t.Pilot, t.GliderType, t.GliderID, 0}
 
