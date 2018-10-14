@@ -118,6 +118,7 @@ func getIDs(w http.ResponseWriter, r *http.Request) {
 }
 
 func getTrackMeta(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "sdfsdlfkn")
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
