@@ -130,6 +130,7 @@ func getIDs(w http.ResponseWriter, r *http.Request) {
 }
 
 func getTrackMeta(w http.ResponseWriter, r *http.Request) {
+	log.Print("XD")
 	url := r.URL.String()
 	_, input := path.Split(url)
 
