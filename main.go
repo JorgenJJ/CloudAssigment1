@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"path"
@@ -31,7 +32,7 @@ import (
 
 }*/
 var url = ""
-func readURL(w http.ResponseWriter, r *http.Request) {
+func getMetadata(w http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 	url = r.URL.String()
 	dir, file := path.Split(url)
@@ -40,7 +41,7 @@ func readURL(w http.ResponseWriter, r *http.Request) {
 	if dir == "/igcinfo/" && file == "api" {
 		uptime := time.Now().Sub(start)
 		fmt.Fprintf(w, "Uptime: %s\n", uptime)
-		fmt.Fprintln(w, "Service for tracking igc files")
+		fmt.Fprintln(w, "Service for IGC tracks")
 		fmt.Fprintln(w, "Version 0.8")
 	} else if dir == "/igcinfo/api/" && file == "igc" {
 
@@ -52,7 +53,9 @@ func readURL(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	port := os.Getenv("PORT")
-	http.HandleFunc("/", readURL)
+	http.HandleFunc("/igcinfo/api", getMetadata)
+	_, err := http.Get("http://serene-caverns-38031.herokuapp.com/igcinfo/api")
+	if err != nil { log.Fatal(err) }
 	http.ListenAndServe(":"+port, nil)
 }
 
