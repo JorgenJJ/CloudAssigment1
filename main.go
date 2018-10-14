@@ -67,7 +67,7 @@ func main() {
 	//resp, err := http.Get("http://serene-caverns-38031.herokuapp.com/igcinfo/api")
 	//if err != nil { log.Fatal(err) }
 	//defer resp.Body.Close()
-	http.ListenAndServe(":"+port, nil)
+	http.ListenAndServe(":"+port, router)
 }
 
 func getMetadata(w http.ResponseWriter, r *http.Request) {
