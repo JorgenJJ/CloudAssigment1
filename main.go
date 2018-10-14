@@ -83,7 +83,6 @@ func getMetadata(w http.ResponseWriter, r *http.Request) {
 }
 
 func registerTrack(w http.ResponseWriter, r *http.Request) {
-	log.Print("test")
 	url, err := r.URL.Query()["url"]
 	if !err || len(url[0]) < 1 {
 		log.Println("URL parameter is missing")
