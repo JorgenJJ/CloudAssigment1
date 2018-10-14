@@ -55,7 +55,7 @@ type Metadata struct {
 	Version string `json:"version,omitempty"`
 }
 
-type Files struct {
+type Track struct {
 	ID string `json:"id,omitempty"`
 	URL string `json:"url,omitempty"`
 }
@@ -63,16 +63,39 @@ type Files struct {
 func main() {
 	router := mux.NewRouter()
 	port := os.Getenv("PORT")
+
 	router.HandleFunc("/igcinfo/api", getMetadata).Methods("GET")
-	//resp, err := http.Get("http://serene-caverns-38031.herokuapp.com/igcinfo/api")
-	//if err != nil { log.Fatal(err) }
-	//defer resp.Body.Close()
+	router.HandleFunc("/igcinfo/api/igc", registerTrack).Methods("POST")
+	router.HandleFunc("/igcinfo/api/igc", getIDs).Methods("GET")
+	router.HandleFunc("/igcinfo/api/igc/{id}", getTrackMeta).Methods("GET")
+	router.HandleFunc("/igcinfo/api/igc/{id}/{field}", getTrackMetaField).Methods("GET")
+
 	http.ListenAndServe(":"+port, router)
 }
 
 func getMetadata(w http.ResponseWriter, r *http.Request) {
 	metadata := Metadata{"Yes", "Service for IGC tracks", "v0.8"}
 	json.NewEncoder(w).Encode(metadata)
+}
+
+func registerTrack(w http.ResponseWriter, r *http.Request) {
+	param := mux.Vars(r)
+	var track Track
+	_ = json.NewDecoder(r.Body).Decode(&track)
+	track.URL = param["url"]
+	json.NewEncoder(w).Encode()
+}
+
+func getIDs(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func getTrackMeta(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func getTrackMetaField(w http.ResponseWriter, r *http.Request) {
+
 }
 
 /*
