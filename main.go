@@ -123,14 +123,34 @@ func getTrackMetaField(w http.ResponseWriter, r *http.Request) {
 	f := temp[5]
 	t := temp[4]
 
-	fmt.Fprintln(w, f)
-	fmt.Fprintln(w, t)
-
-
-	/*
-	in, err := strconv.Atoi(field)
+	in, err := strconv.Atoi(t)
 	if err != nil {
 		log.Fatal(err)
-	}*/
+	}
+	if in <= lastTrack {
+
+		t, e := igc.ParseLocation(tracks[in - 1].URL)
+		if e != nil {
+			log.Fatal(e)
+		}
+
+		info := TrackInfo{t.Date, t.Pilot, t.GliderType, t.GliderID, 9}
+
+		switch f {
+		case "pilot":
+			fmt.Fprintln(w, info.Pilot)
+		case "glider":
+			fmt.Fprintln(w, info.Glider)
+		case "glider_id":
+			fmt.Fprintln(w, info.GliderId)
+		case "track_length":
+			fmt.Fprintln(w, info.TrackLength)
+		case "H_date":
+			fmt.Fprintln(w, info.FDate)
+
+		}
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+	}
 
 }
