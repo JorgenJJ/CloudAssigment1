@@ -32,14 +32,14 @@ import (
 }*/
 var url = ""
 func readURL(w http.ResponseWriter, r *http.Request) {
-	timer := time.NewTimer(time.Second)
+	start := time.Now()
 	url = r.URL.String()
 	dir, file := path.Split(url)
 	fmt.Fprintln(w, dir)
 	fmt.Fprintln(w, file)
-
 	if dir == "/igcinfo/" && file == "api" {
-		fmt.Fprintf(w, "Uptime: %s\n", timer)
+		uptime := time.Now().Sub(start)
+		fmt.Fprintf(w, "Uptime: %s\n", uptime)
 		fmt.Fprintln(w, "Service for tracking igc files")
 		fmt.Fprintln(w, "Version 0.8")
 	}
