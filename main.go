@@ -52,7 +52,7 @@ start := time.Now()
 type Metadata struct {
 	Uptime string `json:"uptime,omitempty"`
 	Desc string `json:"desc,omitempty"`
-	Version string `json:"version,0.1"`
+	Version string `json:"version,omitempty"`
 }
 
 type Files struct {
@@ -68,6 +68,10 @@ func getMetadata(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	metadata.Uptime = "Yes"
+	metadata.Desc = "Service for IGC tracks"
+	metadata.Version = "v0.8"
+
 	router := mux.NewRouter()
 	port := os.Getenv("PORT")
 	router.HandleFunc("/igcinfo/api", getMetadata).Methods("GET")
