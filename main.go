@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 	"os"
 )
@@ -68,7 +69,7 @@ func main() {
 	port := os.Getenv("PORT")
 
 	router.HandleFunc("/igcinfo/api", getMetadata).Methods("GET")
-	router.HandleFunc("/igcinfo/api/igc/{url}", registerTrack).Methods("POST")
+	router.HandleFunc("/igcinfo/api/igc", registerTrack).Methods("POST")
 	router.HandleFunc("/igcinfo/api/igc", getIDs).Methods("GET")
 	router.HandleFunc("/igcinfo/api/igc/{id}", getTrackMeta).Methods("GET")
 	router.HandleFunc("/igcinfo/api/igc/{id}/{field}", getTrackMetaField).Methods("GET")
@@ -82,13 +83,18 @@ func getMetadata(w http.ResponseWriter, r *http.Request) {
 }
 
 func registerTrack(w http.ResponseWriter, r *http.Request) {
-	param := mux.Vars(r)
-	var track Track
-	_ = json.NewDecoder(r.Body).Decode(&track)
-	track.URL = param["url"]
-	track.ID = lastTrack + 1
-	tracks = append(tracks, track)
-	json.NewEncoder(w).Encode(track.ID)
+	log.Print("test")
+	url, err := r.URL.Query()["url"]
+	if !err || len(url[0]) < 1 {
+		log.Println("URL parameter is missing")
+	} else {
+		var track Track
+		_ = json.NewDecoder(r.Body).Decode(&track)
+		track.URL = string(url[0])
+		track.ID = lastTrack + 1
+		tracks = append(tracks, track)
+		json.NewEncoder(w).Encode(track.ID)
+	}
 }
 
 func getIDs(w http.ResponseWriter, r *http.Request) {
