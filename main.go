@@ -16,24 +16,24 @@ import (
 
 // Metadata - Struct for storing info about the API
 type Metadata struct {
-	Uptime string `json:"uptime,omitempty"`
-	Desc string `json:"desc,omitempty"`
+	Uptime  string `json:"uptime,omitempty"`
+	Desc    string `json:"desc,omitempty"`
 	Version string `json:"version,omitempty"`
 }
 
 // Track - Struct for storing basic info about a track
 type Track struct {
-	ID int `json:"id,omitempty"`
+	ID  int    `json:"id,omitempty"`
 	URL string `json:"url,omitempty"`
 }
 
 // TrackInfo - Struct for storing detailed info about a track
 type TrackInfo struct {
-	FDate time.Time `json:"fdate,omitempty"`
-	Pilot string `json:"pilot,omitempty"`
-	Glider string `json:"glider,omitempty"`
-	GliderID string `json:"glider_id,omitempty"`
-	TrackLength int `json:"track_length,omitempty"`
+	FDate       time.Time `json:"fdate,omitempty"`
+	Pilot       string    `json:"pilot,omitempty"`
+	Glider      string    `json:"glider,omitempty"`
+	GliderID    string    `json:"glider_id,omitempty"`
+	TrackLength int       `json:"track_length,omitempty"`
 }
 
 // IDList - Struct for storing IDs
@@ -63,12 +63,12 @@ func getMetadata(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(metadata)
 }
 
-	// Reads a URL as a parameter, makes a new track for it in memory, and writes out the new id in json format
+// Reads a URL as a parameter, makes a new track for it in memory, and writes out the new id in json format
 func registerTrack(w http.ResponseWriter, r *http.Request) {
 	url, err := r.URL.Query()["url"]
 	if !err || len(url[0]) < 1 {
 		log.Println("URL parameter is missing")
-	} else {	// If a URL is sent
+	} else { // If a URL is sent
 		var track Track
 		var id IDList
 		_ = json.NewDecoder(r.Body).Decode(&track)
@@ -86,14 +86,14 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-	// Writes all the registered IDs
+// Writes all the registered IDs
 func getIDs(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(idlist)
 }
 
-	// Writes information about a specific track registered in the memory
+// Writes information about a specific track registered in the memory
 func getTrackMeta(w http.ResponseWriter, r *http.Request) {
 	url := r.URL.String()
 	_, input := path.Split(url)
@@ -103,8 +103,8 @@ func getTrackMeta(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	if in <= lastTrack {	// If the ID exists in memory
-		t, e := igc.ParseLocation(tracks[in - 1].URL)
+	if in <= lastTrack { // If the ID exists in memory
+		t, e := igc.ParseLocation(tracks[in-1].URL)
 		if e != nil {
 			log.Fatal(e)
 		}
@@ -120,7 +120,7 @@ func getTrackMeta(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-	// Writes a specific piece of information about a specific track
+// Writes a specific piece of information about a specific track
 func getTrackMetaField(w http.ResponseWriter, r *http.Request) {
 	url := r.URL.String()
 	temp := strings.Split(url, "/")
@@ -131,9 +131,9 @@ func getTrackMetaField(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if in <= lastTrack {	// If the ID exists in memory
+	if in <= lastTrack { // If the ID exists in memory
 
-		t, e := igc.ParseLocation(tracks[in - 1].URL)
+		t, e := igc.ParseLocation(tracks[in-1].URL)
 		if e != nil {
 			log.Fatal(e)
 		}
