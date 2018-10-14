@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
 	"os"
@@ -89,8 +88,7 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 	track.URL = param["url"]
 	track.ID = lastTrack + 1
 	tracks = append(tracks, track)
-	json.NewEncoder(w).Encode(tracks)
-	fmt.Fprintln(w, "XD")
+	json.NewEncoder(w).Encode(track.ID)
 }
 
 func getIDs(w http.ResponseWriter, r *http.Request) {
