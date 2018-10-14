@@ -14,25 +14,29 @@ import (
 	"time"
 )
 
+// Metadata - Struct for storing info about the API
 type Metadata struct {
 	Uptime string `json:"uptime,omitempty"`
 	Desc string `json:"desc,omitempty"`
 	Version string `json:"version,omitempty"`
 }
 
+// Track - Struct for storing basic info about a track
 type Track struct {
 	ID int `json:"id,omitempty"`
 	URL string `json:"url,omitempty"`
 }
 
+// TrackInfo - Struct for storing detailed info about a track
 type TrackInfo struct {
 	FDate time.Time `json:"fdate,omitempty"`
 	Pilot string `json:"pilot,omitempty"`
 	Glider string `json:"glider,omitempty"`
-	GliderId string `json:"glider_id,omitempty"`
+	GliderID string `json:"glider_id,omitempty"`
 	TrackLength int `json:"track_length,omitempty"`
 }
 
+// IDList - Struct for storing IDs
 type IDList struct {
 	ID int `json:"id,omitempty"`
 }
@@ -55,7 +59,7 @@ func main() {
 }
 
 func getMetadata(w http.ResponseWriter, r *http.Request) {
-	metadata := Metadata{"Yes", "Service for IGC tracks", "v0.8"}
+	metadata := Metadata{"Yes", "Service for IGC tracks", "v1"}
 	json.NewEncoder(w).Encode(metadata)
 }
 
@@ -69,7 +73,7 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 		var id IDList
 		_ = json.NewDecoder(r.Body).Decode(&track)
 		track.URL = string(url[0])
-		lastTrack += 1
+		lastTrack++
 		track.ID = lastTrack
 		id.ID = lastTrack
 		tracks = append(tracks, track)
@@ -99,7 +103,7 @@ func getTrackMeta(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	if in <= lastTrack {
+	if in <= lastTrack {	// If the ID exists in memory
 		t, e := igc.ParseLocation(tracks[in - 1].URL)
 		if e != nil {
 			log.Fatal(e)
@@ -127,7 +131,7 @@ func getTrackMetaField(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if in <= lastTrack {
+	if in <= lastTrack {	// If the ID exists in memory
 
 		t, e := igc.ParseLocation(tracks[in - 1].URL)
 		if e != nil {
@@ -142,7 +146,7 @@ func getTrackMetaField(w http.ResponseWriter, r *http.Request) {
 		case "glider":
 			fmt.Fprintln(w, info.Glider)
 		case "glider_id":
-			fmt.Fprintln(w, info.GliderId)
+			fmt.Fprintln(w, info.GliderID)
 		case "track_length":
 			fmt.Fprintln(w, info.TrackLength)
 		case "H_date":
