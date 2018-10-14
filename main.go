@@ -66,7 +66,6 @@ type IDList struct {
 	ID int `json:"id,omitempty"`
 }
 
-var ids []IDList
 var tracks []Track
 var lastTrack = 0
 
@@ -109,14 +108,9 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 }
 
 func getIDs(w http.ResponseWriter, r *http.Request) {
-	for i := 1; i <= lastTrack; i++ {
-		var id IDList
-		id.ID = tracks[i].ID
-		ids = append(ids, id)
-	}
+	json.NewEncoder(w).Encode(tracks)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(tracks)
 }
 
 func getTrackMeta(w http.ResponseWriter, r *http.Request) {
