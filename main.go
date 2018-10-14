@@ -60,6 +60,9 @@ type Track struct {
 	URL string `json:"url,omitempty"`
 }
 
+var track []Track
+var lastTrack = 0
+
 func main() {
 	router := mux.NewRouter()
 	port := os.Getenv("PORT")
@@ -79,11 +82,12 @@ func getMetadata(w http.ResponseWriter, r *http.Request) {
 }
 
 func registerTrack(w http.ResponseWriter, r *http.Request) {
+	temp := lastTrack + 1
 	param := mux.Vars(r)
-	var track Track
 	_ = json.NewDecoder(r.Body).Decode(&track)
-	track.URL = param["url"]
-	json.NewEncoder(w).Encode()
+	track[temp].URL = param["url"]
+	track[temp].ID = string(temp)
+	json.NewEncoder(w).Encode(track[temp])
 }
 
 func getIDs(w http.ResponseWriter, r *http.Request) {
