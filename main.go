@@ -92,7 +92,7 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 		track.URL = string(url[0])
 		track.ID = lastTrack + 1
 		tracks = append(tracks, track)
-		json.NewEncoder(w).Encode(track.ID)
+		json.NewEncoder(w).Encode(track)
 	}
 }
 
