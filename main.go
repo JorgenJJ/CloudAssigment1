@@ -100,7 +100,7 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 }
 
 func getIDs(w http.ResponseWriter, r *http.Request) {
-
+	json.NewEncoder(w).Encode(tracks)
 }
 
 func getTrackMeta(w http.ResponseWriter, r *http.Request) {
