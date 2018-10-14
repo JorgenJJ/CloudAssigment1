@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -94,7 +93,7 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 		lastTrack += 1
 		track.ID = lastTrack
 		tracks = append(tracks, track)
-		fmt.Fprint(w, "Track id: ")
+		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(track.ID)
 	}
 }
