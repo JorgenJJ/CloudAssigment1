@@ -56,11 +56,11 @@ type Metadata struct {
 }
 
 type Track struct {
-	ID string `json:"id,omitempty"`
+	ID int `json:"id,omitempty"`
 	URL string `json:"url,omitempty"`
 }
 
-var track []Track
+var tracks []Track
 var lastTrack = 0
 
 func main() {
@@ -82,12 +82,13 @@ func getMetadata(w http.ResponseWriter, r *http.Request) {
 }
 
 func registerTrack(w http.ResponseWriter, r *http.Request) {
-	temp := lastTrack + 1
 	param := mux.Vars(r)
-	_ = json.NewDecoder(r.Body).Decode(&track[temp])
-	track[temp].URL = param["url"]
-	track[temp].ID = "s"
-	json.NewEncoder(w).Encode(track[temp])
+	var track Track
+	_ = json.NewDecoder(r.Body).Decode(&track)
+	track.URL = param["url"]
+	track.ID = lastTrack + 1
+	tracks = append(tracks, track)
+	json.NewEncoder(w).Encode(tracks)
 }
 
 func getIDs(w http.ResponseWriter, r *http.Request) {
