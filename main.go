@@ -4,10 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/marni/goigc"
 	"log"
 	"net/http"
 	"os"
 	"path"
+	"strconv"
+	"time"
 )
 
 /*func main() {
@@ -61,6 +64,14 @@ type Metadata struct {
 type Track struct {
 	ID int `json:"id,omitempty"`
 	URL string `json:"url,omitempty"`
+}
+
+type TrackInfo struct {
+	FDate time.Time `json:"fdate,omitempty"`
+	Pilot string `json:"pilot,omitempty"`
+	Glider string `json:"glider,omitempty"`
+	GliderId string `json:"gliderid,omitempty"`
+	TrackLength int `json:"tracklength,omitempty"`
 }
 
 type IDList struct {
@@ -120,8 +131,27 @@ func getIDs(w http.ResponseWriter, r *http.Request) {
 
 func getTrackMeta(w http.ResponseWriter, r *http.Request) {
 	url := r.URL.String()
-	_, file := path.Split(url)
-	fmt.Fprintln(w, file)
+	_, input := path.Split(url)
+
+	in, err := strconv.Atoi(input)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if in <= lastTrack {
+		t, error := igc.ParseLocation(tracks[in].URL)
+		if error != nil {
+			fmt.Errorf("Problem reading the track", err)
+		}
+		info := TrackInfo{t.Date, t.Pilot, t.GliderType, t.GliderID, 0}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(info)
+
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
