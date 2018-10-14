@@ -62,6 +62,11 @@ type Track struct {
 	URL string `json:"url,omitempty"`
 }
 
+type IDList struct {
+	ID int `json:"id,omitempty"`
+}
+
+var ids []IDList
 var tracks []Track
 var lastTrack = 0
 
@@ -83,18 +88,18 @@ func getMetadata(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(metadata)
 }
 
+	// Reads a URL as a parameter, makes a new track for it in memory, and writes out the new id in json format
 func registerTrack(w http.ResponseWriter, r *http.Request) {
 	url, err := r.URL.Query()["url"]
 	if !err || len(url[0]) < 1 {
 		log.Println("URL parameter is missing")
-	} else {
+	} else {	// If a URL is sent
 		var track Track
 		_ = json.NewDecoder(r.Body).Decode(&track)
 		track.URL = string(url[0])
 		lastTrack += 1
 		track.ID = lastTrack
 		tracks = append(tracks, track)
-		// json.NewEncoder(w).Encode(track.ID)
 		jsonConverter := fmt.Sprintf(`"{"id":%d}"`, track.ID)
 		output := []byte(jsonConverter)
 		w.Header().Set("Content-Type", "application/json")
@@ -104,14 +109,27 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 }
 
 func getIDs(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(tracks)
+	for i := 1; i <= lastTrack; i++ {
+		var id IDList
+		id.ID = tracks[i].ID
+		ids = append(ids, id)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(ids)
 }
 
 func getTrackMeta(w http.ResponseWriter, r *http.Request) {
 
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
 }
 
 func getTrackMetaField(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 
 }
 
