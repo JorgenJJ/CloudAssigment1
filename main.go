@@ -13,48 +13,6 @@ import (
 	"time"
 )
 
-/*func main() {
-	s := "http://skypolaris.org/wp-content/uploads/IGS%20Files/Madrid%20to%20Jerez.igc"
-	track, err := igc.ParseLocation(s)
-	if err != nil {
-		fmt.Errorf("Problem reading the track", err)
-	}
-
-	fmt.Printf("Pilot: %s, gilderType: %s, date: %s",
-		track.Pilot, track.GliderType, track.Date.String())
-
-	if len(os.Args) != 2 {
-		os.Exit(1)
-	}
-	response, err := http.Get(os.Args[1])
-	if err != nil {
-		log.Fatal(err)
-	} else {
-		fmt.Print(response)
-	}
-
-
-}*/
-
-/*
-start := time.Now()
-	url = r.URL.String()
-	dir, file := path.Split(url)
-	fmt.Fprintln(w, dir)
-	fmt.Fprintln(w, file)
-	if dir == "/igcinfo/" && file == "api" {
-		uptime := time.Now().Sub(start)
-		fmt.Fprintf(w, "Uptime: %s\n", uptime)
-		fmt.Fprintln(w, "Service for IGC tracks")
-		fmt.Fprintln(w, "Version 0.8")
-	} else if dir == "/igcinfo/api/" && file == "igc" {
-
-	} else {
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprintln(w,"404 - Page not found")
-	}
-
- */
 type Metadata struct {
 	Uptime string `json:"uptime,omitempty"`
 	Desc string `json:"desc,omitempty"`
@@ -70,8 +28,8 @@ type TrackInfo struct {
 	FDate time.Time `json:"fdate,omitempty"`
 	Pilot string `json:"pilot,omitempty"`
 	Glider string `json:"glider,omitempty"`
-	GliderId string `json:"gliderid,omitempty"`
-	TrackLength int `json:"tracklength,omitempty"`
+	GliderId string `json:"glider_id,omitempty"`
+	TrackLength int `json:"track_length,omitempty"`
 }
 
 type IDList struct {
@@ -123,14 +81,15 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+	// Writes all the registered IDs
 func getIDs(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(idlist)
 }
 
+	// Writes information about a specific track registered in the memory
 func getTrackMeta(w http.ResponseWriter, r *http.Request) {
-	log.Print("XD")
 	url := r.URL.String()
 	_, input := path.Split(url)
 
@@ -154,36 +113,23 @@ func getTrackMeta(w http.ResponseWriter, r *http.Request) {
 	} else {
 		w.WriteHeader(http.StatusNotFound)
 	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-
 }
 
+	// Writes a specific piece of information about a specific track
 func getTrackMetaField(w http.ResponseWriter, r *http.Request) {
+	url := r.URL.String()
+	u, field := path.Split(url)
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
+	_, t := path.Split(u)
+
+	fmt.Fprintln(w, field)
+	fmt.Fprintln(w, t)
+
+
+	/*
+	in, err := strconv.Atoi(field)
+	if err != nil {
+		log.Fatal(err)
+	}*/
 
 }
-
-/*
-var url = ""
-func readURL(w http.ResponseWriter, r *http.Request) {
-	url = r.URL.Path[1:]
-}
-
-func pageNotFound(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotFound)
-	w.Write([]byte("404 - Page not found!"))
-	fmt.Fprint(w, "404 - Page not found!")
-}
-
-func main() {
-	port := os.Getenv("PORT")
-	http.HandleFunc("/", readURL)
-	http.ListenAndServe(":"+port, nil)
-
-	http.HandleFunc("/", pageNotFound)
-}
-*/
