@@ -147,6 +147,8 @@ func getTrackMetaField(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintln(w, info.TrackLength)
 		case "H_date":
 			fmt.Fprintln(w, info.FDate)
+		default:
+			w.WriteHeader(http.StatusNotFound)
 
 		}
 	} else {
