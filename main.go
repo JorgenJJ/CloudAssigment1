@@ -95,11 +95,14 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 		log.Println("URL parameter is missing")
 	} else {	// If a URL is sent
 		var track Track
+		var id IDList
 		_ = json.NewDecoder(r.Body).Decode(&track)
 		track.URL = string(url[0])
 		lastTrack += 1
 		track.ID = lastTrack
+		id.ID = lastTrack
 		tracks = append(tracks, track)
+		idlist = append(idlist, id)
 		jsonConverter := fmt.Sprintf(`"{"id":%d}"`, track.ID)
 		output := []byte(jsonConverter)
 		w.Header().Set("Content-Type", "application/json")
@@ -109,15 +112,9 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 }
 
 func getIDs(w http.ResponseWriter, r *http.Request) {
-	for i := 1; i <= lastTrack; i++ {
-		var id IDList
-		id.ID = lastTrack
-		idlist = append(idlist, id)
-	}
-
-	json.NewEncoder(w).Encode(idlist)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(idlist)
 }
 
 func getTrackMeta(w http.ResponseWriter, r *http.Request) {
