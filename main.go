@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -94,7 +95,8 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 		track.ID = lastTrack
 		tracks = append(tracks, track)
 		// json.NewEncoder(w).Encode(track.ID)
-		output := []byte(`{"id":0}`)
+		jsonConverter := fmt.Sprintf(`"{"id":%d}"`, track.ID)
+		output := []byte(jsonConverter)
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write(output)
