@@ -93,8 +93,14 @@ func registerTrack(w http.ResponseWriter, r *http.Request) {
 		lastTrack += 1
 		track.ID = lastTrack
 		tracks = append(tracks, track)
+		// json.NewEncoder(w).Encode(track.ID)
+		output, err := json.Marshal(track.ID)
+		if err != nil {
+			log.Fatal(err)
+		}
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(track.ID)
+		w.WriteHeader(http.StatusOK)
+		w.Write(output)
 	}
 }
 
