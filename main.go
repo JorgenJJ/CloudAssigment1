@@ -139,11 +139,11 @@ func getTrackMeta(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if in <= lastTrack {
-		t, error := igc.ParseLocation(tracks[in].URL)
-		if error != nil {
-			log.Fatal(error)
+		t, e := igc.ParseLocation(tracks[in].URL)
+		if e != nil {
+			log.Fatal(e)
 		}
-		log.Print("SAS")
+
 		info := TrackInfo{t.Date, t.Pilot, t.GliderType, t.GliderID, 0}
 
 		w.Header().Set("Content-Type", "application/json")
