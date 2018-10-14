@@ -78,7 +78,7 @@ func main() {
 }
 
 func getMetadata(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode(metadata)
+	json.NewEncoder(w).Encode("xd")
 	fmt.Fprintln(w,"test")
 }
 
