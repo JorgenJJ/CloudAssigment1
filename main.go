@@ -68,7 +68,7 @@ func main() {
 	port := os.Getenv("PORT")
 
 	router.HandleFunc("/igcinfo/api", getMetadata).Methods("GET")
-	router.HandleFunc("/igcinfo/api/igc", registerTrack).Methods("POST")
+	router.HandleFunc("/igcinfo/api/igc/{url}", registerTrack).Methods("POST")
 	router.HandleFunc("/igcinfo/api/igc", getIDs).Methods("GET")
 	router.HandleFunc("/igcinfo/api/igc/{id}", getTrackMeta).Methods("GET")
 	router.HandleFunc("/igcinfo/api/igc/{id}/{field}", getTrackMetaField).Methods("GET")
