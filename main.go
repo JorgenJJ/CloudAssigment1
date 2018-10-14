@@ -140,7 +140,7 @@ func getTrackMeta(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if in <= lastTrack {
-		t, e := igc.ParseLocation(tracks[in + 1].URL)
+		t, e := igc.ParseLocation(tracks[in - 1].URL)
 		if e != nil {
 			log.Fatal(e)
 		}
