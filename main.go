@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 )
 
 /*func main() {
@@ -118,7 +119,9 @@ func getIDs(w http.ResponseWriter, r *http.Request) {
 }
 
 func getTrackMeta(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "sdfsdlfkn")
+	url := r.URL.String()
+	_, file := path.Split(url)
+	fmt.Fprintln(w, file)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
