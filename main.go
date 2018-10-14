@@ -116,7 +116,7 @@ func getIDs(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(ids)
+	json.NewEncoder(w).Encode(tracks)
 }
 
 func getTrackMeta(w http.ResponseWriter, r *http.Request) {
