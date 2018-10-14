@@ -52,7 +52,7 @@ start := time.Now()
 type Metadata struct {
 	Uptime string `json:"uptime,omitempty"`
 	Desc string `json:"desc,omitempty"`
-	Version string `json:"version,omitempty"`
+	Version string `json:"version,0.1"`
 }
 
 type Files struct {
