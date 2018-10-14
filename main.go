@@ -10,6 +10,7 @@ import (
 	"os"
 	"path"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -120,10 +121,10 @@ func getTrackMetaField(w http.ResponseWriter, r *http.Request) {
 	url := r.URL.String()
 	u, field := path.Split(url)
 
-	_, t := path.Split(u)
+	t := strings.Split(u, "/")
 
 	fmt.Fprintln(w, field)
-	fmt.Fprintln(w, t)
+	fmt.Fprintln(w, t[3])
 
 
 	/*
