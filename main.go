@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
 	"os"
@@ -61,13 +60,7 @@ type Files struct {
 	URL string `json:"url,omitempty"`
 }
 
-var metadata Metadata
-
 func main() {
-	metadata.Uptime = "Yes"
-	metadata.Desc = "Service for IGC tracks"
-	metadata.Version = "v0.8"
-
 	router := mux.NewRouter()
 	port := os.Getenv("PORT")
 	router.HandleFunc("/igcinfo/api", getMetadata).Methods("GET")
@@ -78,8 +71,8 @@ func main() {
 }
 
 func getMetadata(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode("xd")
-	fmt.Fprintln(w,"test")
+	metadata := Metadata{"Yes", "Service for IGC tracks", "v0.8"}
+	json.NewEncoder(w).Encode(metadata)
 }
 
 /*
